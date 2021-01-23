@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const DaiToken = artifacts.require('DaiToken')
 const DappToken = artifacts.require('DappToken')
 const TokenFarm = artifacts.require('TokenFarm')
@@ -57,9 +58,13 @@ contract('TokenFarm', ([owner, investor]) => {
         it('rewards investors for staking mDai tokens', async() => {
             let result
 
-            // Check investro balance before staking
+            // Check investor balance before staking
             result = await daiToken.balanceOf(investor)
             assert.equal(result.toString(), tokens('100'), 'investor Mock Dai wallet balance correct before staking')
+
+            // Stake Mock DAI Tokens
+            await daiToken.approve(tokenFarm.address, tokens('100'), {from: investor})
+            await tokenFarm.stakeTokens(tokens('100'), {from: investor})
 
         })
     })

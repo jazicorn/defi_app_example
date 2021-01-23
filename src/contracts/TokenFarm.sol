@@ -33,7 +33,7 @@ contract TokenFarm {
             stakers.push(msg.sender);
         }
 
-        isStaked[msg.sender] = true;
+        isStaking[msg.sender] = true;
         hasStaked[msg.sender] = true;
     }
 

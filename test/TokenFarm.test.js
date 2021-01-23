@@ -5,8 +5,12 @@ const TokenFarm = artifacts.require('TokenFarm')
 require('chai')
     .use(require('chai-as-promised'))
     .should()
+
+function tokens(n) {
+    return web3.utils.toWei(n, 'ether');
+}
     
-contract('TokenFarm', (accounts) => {
+contract('TokenFarm', ([owner, investor]) => {
     let daiToken, dappToken, tokenFarm
 
     before(async () => {
@@ -15,7 +19,12 @@ contract('TokenFarm', (accounts) => {
         dappToken = await DappToken.new()
         tokenFarm = await TokenFarm.new(dappToken.address, daiToken.address)
 
+        // Transfer all Dapp tokens to farm (1 million)
         await dappToken.transfer(tokenFarm.address, '1000000000000000000000000')
+
+        // Send tokens to investor
+        await daiToken.transfer(investor, tokens('100'), { from: owner })
+        
     })
 
     describe('Mock Dai deployment', async () => {

@@ -20,12 +20,11 @@ contract TokenFarm {
 
     //Stake Tokens (Deposit)
     function stakeTokens(uint _amount) public {
-        //Code goes inside here
 
         // Transfer Mock Dai to this contract for staking
         daiToken.transferFrom(msg.sender, address(this), _amount);
 
-        // Update stakign Balance
+        // Update staking Balance
         stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
 
         // Add user to stakers array *only* if they haven't staked already
@@ -40,4 +39,14 @@ contract TokenFarm {
     // Unstake Tokens (Withdraw)
 
     // Issue Tokens
+    // For every person who stakes inside the app fetch there balance then send them the same amount of dai tokens
+    function issueToken() public {
+        for (uint i = 0; i <stakers.length; i++) {
+            address recipient = stakers[i];
+            uint balance = stakingBalance[recipient];
+            if(balance > 0) {
+               dappToken.transfer(recipient, balance); 
+            }         
+        }
+    }
 }

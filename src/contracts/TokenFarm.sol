@@ -45,7 +45,7 @@ contract TokenFarm {
 
     // Issue Tokens
     // For every person who stakes inside the app fetch there balance then send them the same amount of dai tokens
-    function issueToken() public {
+    function issueTokens() public {
         // Owner only one that calls the function
         require(msg.sender == owner, "caller must be the owner");
 
